@@ -7,7 +7,7 @@ name: Build Downloader App.
 on:
   push:
     branches:
-      - master
+      - Base
   workflow_dispatch:
 
 # Workflow's jobs
