@@ -17,19 +17,19 @@ export default class UpdateService implements Vendor {
     private readonly store: ElectronStore,
     @inject(TYPES.MainWindow)
     private readonly mainWindow: MainWindow,
-  ) {}
+  ) { }
 
   async init() {
     const { autoUpgrade, allowBeta } = this.store.store;
-    autoUpdater.disableWebInstaller = true;
+    autoUpdater.disableWebInstaller = false;
     autoUpdater.logger = this.logger.logger;
     autoUpdater.allowPrerelease = allowBeta;
     if (isDev) {
-      autoUpdater.forceDevUpdateConfig = true;
+      autoUpdater.forceDevUpdateConfig = false;
     }
 
     if (autoUpgrade) {
-      autoUpdater.autoDownload = true;
+      autoUpdater.autoDownload = false;
       this.autoUpdate();
     } else {
       autoUpdater.autoDownload = false;
