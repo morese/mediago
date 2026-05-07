@@ -1,0 +1,12 @@
+node_modules
+*.local
+.idea
+.parcel-cache
+*.tsno.mjs
+.DS_Store
+log
+.turbo
+.claude
+.store
+release
+

@@ -1,0 +1,41 @@
+{
+  "name": "@mediago/project",
+  "version": "0.1.0",
+  "description": "A powerful and easy-to-use online video downloader",
+  "author": "caorushizi",
+  "homepage": "https://downloader.caorushizi.cn/",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.15.0",
+  "scripts": {
+    "knip": "knip",
+    "dev:electron": "cross-env APP_TARGET=electron NODE_ENV=development pnpm build:electron && pnpm start:electron",
+    "dev:server": "cross-env APP_TARGET=server NODE_ENV=development pnpm build:server && pnpm start:server",
+    "start:electron": "cross-env APP_TARGET=electron turbo run dev -F @mediago/electron -F @mediago/ui",
+    "start:server": "cross-env APP_TARGET=server turbo run dev -F @mediago/server -F @mediago/ui",
+    "build:electron": "pnpm rebuild:electron && cross-env APP_TARGET=electron NODE_ENV=production turbo run build -F @mediago/electron -F @mediago/ui",
+    "build:server": "pnpm rebuild:server && cross-env APP_TARGET=server NODE_ENV=production turbo run build -F @mediago/server -F @mediago/ui",
+    "lint": "turbo run lint",
+    "rebuild:server": "pnpm -F @mediago/server rebuild",
+    "rebuild:electron": "pnpm -F @mediago/electron run rebuild",
+    "pack:server": "pnpm build:server && pnpm -F @mediago/server run pack",
+    "pack:electron": "pnpm build:electron && pnpm -F @mediago/electron run pack",
+    "release:server": "pnpm pack:server && pnpm -F @mediago/server run release",
+    "release:electron": "pnpm build:electron && pnpm -F @mediago/electron run release",
+    "docs:dev": "pnpm -F @mediago/docs run docs:dev",
+    "docs:build": "pnpm -F @mediago/docs run docs:build",
+    "type:check": "turbo type:check"
+  },
+  "keywords": [],
+  "license": "MIT",
+  "devDependencies": {
+    "@prettier/plugin-oxc": "^0.0.4",
+    "@types/node": "^24.9.2",
+    "@typescript/native-preview": "7.0.0-dev.20251023.1",
+    "cross-env": "^10.1.0",
+    "knip": "^5.66.4",
+    "oxlint-tsgolint": "^0.3.0",
+    "prettier": "^3.6.2",
+    "turbo": "^2.6.0"
+  }
+}

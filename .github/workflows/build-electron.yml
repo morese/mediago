@@ -1,0 +1,59 @@
+# build.yml
+
+# Workflow's name
+name: Build MediaGo App
+
+# Workflow's trigger
+on:
+  workflow_dispatch:
+
+# Workflow's jobs
+jobs:
+  # job's id
+  release:
+    # job's name
+    name: build and release electron app
+
+    # the type of machine to run the job on
+    runs-on: ${{ matrix.os }}
+
+    # create a build matrix for jobs
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest, macos-15-intel, ubuntu-latest]
+
+    # create steps
+    steps:
+      - name: Check out git repository
+        uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: "10.15.0"
+          run_install: false
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.19.5"
+          cache: "pnpm"
+
+      - name: Install Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.10"
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build  & release app
+        run: pnpm release:electron
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          APP_TD_APPID: ${{ secrets.APP_TD_APPID }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mediago-${{ matrix.os }}
+          path: apps/electron/release/mediago-*
